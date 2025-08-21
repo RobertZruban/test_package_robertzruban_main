@@ -37,13 +37,14 @@ function test:ci {
 # (example) ./run.sh test tests/test_states_info.py::test__slow_add
 function run-tests {
     PYTEST_EXIT_STATUS=0
+    SRC_DIR="$THIS_DIR/src"
     # Check if there are any files other than __init__.py in the src directory
-    if [ -z "$(find "${$THIS_DIR/src/}" -type f ! -name '__init__.py')" ]; then
-        echo "No source files found in "${@:-"$THIS_DIR/src/"}" except __init__.py. Skipping tests."
+    if [ -z "$(find "$SRC_DIR" -type f -name '*.py' ! -name '__init__.py')" ]; then
+        echo "No source files found in ${@:-"$SRC_DIR"} except __init__.py. Skipping tests."
         return 0
     fi
     python -m pytest ${@:-"$THIS_DIR/tests/"} \
-        --cov "${COVERAGE_DIR:-$THIS_DIR/src}" \
+        --cov "${COVERAGE_DIR:-$SRC_DIR}" \
         --cov-report html \
         --cov-report term \
         --cov-report xml \
@@ -54,7 +55,6 @@ function run-tests {
     mv .coverage "$THIS_DIR/test-reports/" || true
     return $PYTEST_EXIT_STATUS
 }
-
 
 function test:wheel-locally {
     deactivate || true

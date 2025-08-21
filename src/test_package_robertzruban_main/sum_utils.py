@@ -1,6 +1,7 @@
 # sum_utils.py
 from typing import SupportsFloat
 
+
 def add(a: SupportsFloat, b: SupportsFloat) -> float:
     """
     Return the arithmetic sum of two numeric values.
