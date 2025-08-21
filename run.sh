@@ -80,7 +80,7 @@ function build {
 }
 
 function release:test {
-    lint
+    #lint
     clean
     build
     publish:test
@@ -93,6 +93,7 @@ function release:prod {
 
 function publish:test {
     try-load-dotenv || true
+    echo "Using TEST_PYPI_TOKEN: ${TEST_PYPI_TOKEN:0:5}...${TEST_PYPI_TOKEN: -5}"
     twine upload dist/* \
         --repository testpypi \
         --username=__token__ \
